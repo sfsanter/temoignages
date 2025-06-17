@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Témoignages</title>
+    <title>Témoignage d'Abdel</title>
     <style>
         * {
             margin: 0;
@@ -14,37 +14,33 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-        }
-        body {
             background-color: black;
-            color: #00ff00;
-            font-family: monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 5vh; /* Taille relative à la hauteur de l'écran */
-            line-height: 1.5;
+            font-family: 'Courier New', monospace;
         }
         #text-container {
-            width: 90%;
-            height: 90%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            white-space: pre-wrap;
+            width: 100%;
+            height: 100%;
+            color: white;
+            font-size: 24px;
+            line-height: 1.5;
             padding: 20px;
+            white-space: pre-wrap;
+            overflow-y: auto;
         }
-        .glitch {
-            animation: glitch 0.1s infinite;
+        .hidden {
+            display: none;
         }
-        @keyframes glitch {
-            0% { transform: translate(0) }
-            20% { transform: translate(-2px, 2px) }
-            40% { transform: translate(-2px, -2px) }
-            60% { transform: translate(2px, 2px) }
-            80% { transform: translate(2px, -2px) }
-            100% { transform: translate(0) }
+        .timestamp {
+            color: #666;
+        }
+        .line {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .line.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -53,49 +49,47 @@
 
     <script src="temoignages.js"></script>
     <script>
-        // Fonction pour passer en plein écran
-        function goFullScreen() {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-            } else if (document.documentElement.mozRequestFullScreen) {
-                document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullscreen) {
-                document.documentElement.webkitRequestFullscreen();
-            } else if (document.documentElement.msRequestFullscreen) {
-                document.documentElement.msRequestFullscreen();
-            }
-        }
-
         const container = document.getElementById('text-container');
-        let currentTestimonialIndex = 0;
-        
-        function typeWriter(text, index = 0) {
-            if (index < text.length) {
-                container.textContent += text.charAt(index);
+        let currentLineIndex = 0;
+        let lines = testimonials[0].split('\n');
+
+        function showNextLine() {
+            if (currentLineIndex < lines.length) {
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'line';
+                lineDiv.textContent = lines[currentLineIndex];
+                container.appendChild(lineDiv);
                 
-                if (Math.random() < 0.1) {
-                    container.classList.add('glitch');
-                    setTimeout(() => container.classList.remove('glitch'), 100);
-                }
+                // Force reflow
+                lineDiv.offsetHeight;
                 
-                const randomDelay = Math.random() * 100 + 50;
-                setTimeout(() => typeWriter(text, index + 1), randomDelay);
+                // Add visible class for animation
+                lineDiv.classList.add('visible');
+                
+                // Scroll to bottom
+                container.scrollTop = container.scrollHeight;
+                
+                currentLineIndex++;
+                setTimeout(showNextLine, 2000); // Affiche une nouvelle ligne toutes les 2 secondes
             } else {
-                setTimeout(nextTestimonial, 5000);
+                // Recommence depuis le début après une pause
+                setTimeout(() => {
+                    container.innerHTML = '';
+                    currentLineIndex = 0;
+                    showNextLine();
+                }, 5000);
             }
         }
 
-        function nextTestimonial() {
-            container.textContent = '';
-            currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
-            typeWriter(testimonials[currentTestimonialIndex]);
-        }
+        // Démarre l'animation
+        showNextLine();
 
-        // Démarrer en plein écran au clic
-        document.addEventListener('click', goFullScreen);
-        
-        // Démarrer avec le premier témoignage
-        typeWriter(testimonials[0]);
+        // Passe en plein écran au clic
+        document.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            }
+        });
     </script>
 </body>
 </html> 
