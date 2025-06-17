@@ -2,9 +2,9 @@ const testimonials = [`[00:00:00] > "Alors moi je m'appelle Abdelranibaizi, mais
 [00:00:04] > "Je travaille dans la livraison depuis longtemps" 
 [00:00:09] > "Moi personnellement je suis sur GLS"
 [00:00:12] > "J'ai été dispatcher Amazon"
-[00:00:14] > "J'ai été sur du transfert de sang à Paris »
+[00:00:14] > "J'ai été sur du transfert de sang à Paris"
 [00:00:16] > "Donc moi c'est le terrain"
-[00:00:22] > "On commence à 6h00 »
+[00:00:22] > "On commence à 6h00"
 [00:00:24] > "C'est chronométré"
 [00:00:26] > "Il faut qu'on soit là à 5h55"
 [00:00:29] > "Histoire de prendre un café avec un collègue"
