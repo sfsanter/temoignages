@@ -1,0 +1,17 @@
+{
+    "width": 1920,
+    "height": 1080,
+    "font_scale_ref": 84,
+    "font_family": "JetBrains Mono",
+    "fallback_fonts": [
+        "IBM Plex Mono",
+        "Menlo",
+        "Monaco",
+        "Consolas",
+        "Courier New"
+    ],
+    "text_color": "#ffffff",
+    "bg_color": "#000000",
+    "speed": 70,
+    "glitch_intensity": 0
+}
