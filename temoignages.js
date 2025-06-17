@@ -11,7 +11,7 @@ const testimonials = [`[00:00:00] > "Alors moi je m'appelle Abdelranibaizi, mais
 [00:00:32] > "Une cigarette"
 [00:00:34] > "À 6h tu sois là ou tu sois pas là"
 [00:00:37] > "Les convoyeurs démarrent"
-[00:00:39] > "Entre 4000 et 6000 colis par jour passe par le dépôt"
+[00:00:39] > "Entre 4000 et 6000 colis par jour passent par le dépôt"
 [00:00:42] > "On surveille les colis qui passent sur la chaîne"
 [00:00:45] > "C'est pour nous on les prend"
 [00:00:47] > "C'est pour un collègue on tire, on laisse passer"
