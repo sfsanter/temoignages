@@ -6,7 +6,7 @@
     <title>Témoignage d'Abdel</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -18,13 +18,13 @@
             height: 100%;
             overflow: hidden;
             background-color: black;
-            font-family: 'VT323', monospace;
+            font-family: 'Source Code Pro', monospace;
         }
         #text-container {
             width: 100%;
             height: 100%;
             color: white;
-            font-size: 32px;
+            font-size: 28px;
             line-height: 1.6;
             padding: 20px;
             white-space: pre-wrap;
@@ -53,39 +53,42 @@
     <script src="temoignages.js"></script>
     <script>
         const container = document.getElementById('text-container');
-        let currentLineIndex = 0;
         let lines = testimonials[0].split('\n');
+        let currentLineIndex = 0;
+        let currentCharacterIndex = 0;
+        let currentLineElement = null;
 
-        function showNextLine() {
+        function typeWriter() {
             if (currentLineIndex < lines.length) {
-                const lineDiv = document.createElement('div');
-                lineDiv.className = 'line';
-                lineDiv.textContent = lines[currentLineIndex];
-                container.appendChild(lineDiv);
-                
-                // Force reflow
-                lineDiv.offsetHeight;
-                
-                // Add visible class for animation
-                lineDiv.classList.add('visible');
-                
-                // Scroll to bottom
-                container.scrollTop = container.scrollHeight;
-                
-                currentLineIndex++;
-                setTimeout(showNextLine, 1000); // Affiche une nouvelle ligne toutes les secondes
+                const currentLineText = lines[currentLineIndex];
+
+                if (currentCharacterIndex === 0) {
+                    currentLineElement = document.createElement('div');
+                    container.appendChild(currentLineElement);
+                }
+
+                if (currentCharacterIndex < currentLineText.length) {
+                    currentLineElement.textContent += currentLineText.charAt(currentCharacterIndex);
+                    currentCharacterIndex++;
+                    container.scrollTop = container.scrollHeight;
+                    setTimeout(typeWriter, 25); // Vitesse de frappe (en ms)
+                } else {
+                    currentLineIndex++;
+                    currentCharacterIndex = 0;
+                    setTimeout(typeWriter, 500); // Pause entre les lignes (en ms)
+                }
             } else {
-                // Recommence depuis le début après une pause
                 setTimeout(() => {
                     container.innerHTML = '';
                     currentLineIndex = 0;
-                    showNextLine();
-                }, 5000);
+                    currentCharacterIndex = 0;
+                    typeWriter();
+                }, 5000); // Pause avant de recommencer
             }
         }
 
         // Démarre l'animation
-        showNextLine();
+        typeWriter();
 
         // Passe en plein écran au clic
         document.addEventListener('click', () => {
