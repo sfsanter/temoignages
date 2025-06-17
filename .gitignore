@@ -1,0 +1,7 @@
+.DS_Store
+.venv/
+__pycache__/
+media/
+frames_temp/
+*.aep
+output.mp4 
