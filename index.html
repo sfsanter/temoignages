@@ -6,7 +6,7 @@
     <title>Témoignage d'Abdel</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -18,7 +18,8 @@
             height: 100%;
             overflow: hidden;
             background-color: black;
-            font-family: 'Source Code Pro', monospace;
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 300;
         }
         #text-container {
             width: 100%;
@@ -29,21 +30,6 @@
             padding: 20px;
             white-space: pre-wrap;
             overflow-y: auto;
-        }
-        .hidden {
-            display: none;
-        }
-        .timestamp {
-            color: #666;
-        }
-        .line {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s, transform 0.5s;
-        }
-        .line.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
     </style>
 </head>
@@ -87,6 +73,26 @@
             }
         }
 
+        // --- Empêcher la mise en veille de l'écran ---
+        let wakeLock = null;
+        const requestWakeLock = async () => {
+            try {
+                wakeLock = await navigator.wakeLock.request('screen');
+                console.log('Wake Lock est actif. L\'écran ne se mettra pas en veille.');
+            } catch (err) {
+                console.error(`${err.name}, ${err.message}`);
+            }
+        };
+
+        const handleVisibilityChange = async () => {
+            if (wakeLock !== null && document.visibilityState === 'visible') {
+                await requestWakeLock();
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', requestWakeLock);
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
         // Démarre l'animation
         typeWriter();
 
@@ -96,7 +102,6 @@
                 document.documentElement.requestFullscreen();
             }
         });
-        // Force refresh
     </script>
 </body>
-</html> 
+</html>
